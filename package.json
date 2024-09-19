@@ -4,12 +4,13 @@
     "hono": "^4.6.2"
   },
   "devDependencies": {
+    "@types/node": "^22.5.5",
     "prisma": "^5.19.1"
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "tsc",
     "start": "node src/index.js",
-    "postinstall": "prisma generate "
+    "postinstall": "prisma generate"
   }
 }
