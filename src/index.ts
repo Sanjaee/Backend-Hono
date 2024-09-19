@@ -1,4 +1,3 @@
-
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
@@ -12,7 +11,7 @@ const userSchema = z.object({
   email: z.string().email(),
 })
 
-// Create
+// Create User
 app.post('/users', zValidator('json', userSchema), async (c) => {
   const { name, email } = c.req.valid('json')
   const user = await prisma.user.create({
@@ -21,12 +20,13 @@ app.post('/users', zValidator('json', userSchema), async (c) => {
   return c.json(user, 201)
 })
 
-// Read
+// Get All Users
 app.get('/users', async (c) => {
   const users = await prisma.user.findMany()
   return c.json(users)
 })
 
+// Get User by ID
 app.get('/users/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   const user = await prisma.user.findUnique({ where: { id } })
@@ -34,7 +34,7 @@ app.get('/users/:id', async (c) => {
   return c.json(user)
 })
 
-// Update
+// Update User
 app.put('/users/:id', zValidator('json', userSchema), async (c) => {
   const id = parseInt(c.req.param('id'))
   const { name, email } = c.req.valid('json')
@@ -49,7 +49,7 @@ app.put('/users/:id', zValidator('json', userSchema), async (c) => {
   }
 })
 
-// Delete
+// Delete User
 app.delete('/users/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   try {
@@ -60,6 +60,7 @@ app.delete('/users/:id', async (c) => {
   }
 })
 
+// Konfigurasi server untuk Vercel
 const port = parseInt(process.env.PORT || '3000')
 
 export default {
